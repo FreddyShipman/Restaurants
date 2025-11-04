@@ -23,54 +23,53 @@ public class Restaurants {
         MongoDatabase db = client.getDatabase("RestauratsDB");
         MongoCollection<Document> col = db.getCollection("restaurants");
         
-
-        ArrayList<Document> lista = new ArrayList<>();
+//
+//        ArrayList<Document> lista = new ArrayList<>();
 //        lista.add(new Document("name", "Cafe de la plaza")
 //                .append("stars", 4.3)
 //                .append("categorias", Arrays.asList(new String[]{"Cafe", "Postres", "Desayunos"}))
 //        );
         
-        lista.add(new Document("name", "Expresso express")
-                .append("stars", 4.8)
-                .append("categorias", Arrays.asList(new String[]{"Cafe", "Rapido", "Takeaway"}))
-        );
+//        lista.add(new Document("name", "Expresso express")
+//                .append("stars", 4.8)
+//                .append("categorias", Arrays.asList(new String[]{"Cafe", "Rapido", "Takeaway"}))
+//        );
+//        
+//        lista.add(new Document("name", "The tea house")
+//                .append("stars", 3.9)
+//                .append("categorias", Arrays.asList(new String[]{"Te", "Infusiones", "Postres"}))
+//        );
+//        
+//        lista.add(new Document("name", "Morning brew")
+//                .append("stars", 4.0)
+//                .append("categorias", Arrays.asList(new String[]{"Cafe", "Desayuno", "Bakery"}))
+//        );
+//        col.insertMany(lista);
         
-        lista.add(new Document("name", "The tea house")
-                .append("stars", 3.9)
-                .append("categorias", Arrays.asList(new String[]{"Te", "Infusiones", "Postres"}))
-        );
-        
-        lista.add(new Document("name", "Morning brew")
-                .append("stars", 4.0)
-                .append("categorias", Arrays.asList(new String[]{"Cafe", "Desayuno", "Bakery"}))
-        );
-        col.insertMany(lista);
-        
-//        for (Document d: col.find(Filters.eq("name", "Sushilito"))){
-//            System.out.println(d.toJson());
-//        }
-//        
-//        for (Document d: col.find(Filters.gt("stars", 4))){
-//            System.out.println(d.toJson());
-//        }
-//        
-//        Bson filtro = Filters.and(Filters.gte("stars", 3), Filters.lte("stars", 4));
-//        for (Document d: col.find(filtro)){
-//            System.out.println(d.toJson());
-//        }
-//        
-//        for (Document d: col.find(Filters.in("categorias", Arrays.asList("Pizza", "Hamburguesas", "Bebidas")))){
-//            System.out.println(d.toJson());
-//        }
-//        
-//        for (Document d: col.find(Filters.regex("name", "o$"))){
-//            System.out.println(d.toJson());
-//        }
-//        
-//        col.updateOne(Filters.eq("name", "Sushilito"), Updates.set("stars", 4.5));
-//        col.updateOne(Filters.eq("name", "Sushilito"), Updates.set("telefono", "1234567890"));
-//        col.updateOne(Filters.eq("_id", new ObjectId("69095f0259cf1cf0ab607388")), Updates.inc("stars", 1));
-//        
-//        col.deleteOne(Filters.eq("_id", new ObjectId("69096199d449ff91c5b7f332")));
+        System.out.println("-----Documentos con stars >= 4.5-----");
+        for (Document d : col.find(Filters.gte("stars", 4.5))) {
+            System.out.println(d.toJson());
+        }
+
+        System.out.println("\n-----Documentos cuyo nombre contiene 'Cafe'-----");
+        for (Document d : col.find(Filters.regex("name", "Cafe"))) {
+            System.out.println(d.toJson());
+        }
+
+        System.out.println("\n-----Documentos con categories que incluyan 'Postres'-----");
+        for (Document d : col.find(Filters.eq("categorias", "Postres"))) {
+            System.out.println(d.toJson());
+        }
+
+        System.out.println("\n-----Documentos con stars entre 3 y 4.3-----");
+        Bson filtro_rango = Filters.and(Filters.gte("stars", 3), Filters.lte("stars", 4.3));
+        for (Document d : col.find(filtro_rango)) {
+            System.out.println(d.toJson());
+        }
+
+        System.out.println("\n-----Documentos cuyo nombre empieza con 'T'-----");
+        for (Document d : col.find(Filters.regex("name", "^T"))) {
+            System.out.println(d.toJson());
+        }
     }
 }
