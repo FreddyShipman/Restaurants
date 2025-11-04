@@ -72,15 +72,26 @@ public class Restaurants {
 //            System.out.println(d.toJson());
 //        }
 
-        col.updateOne(Filters.eq("name", "Morning brew"), Updates.set("stars", 4.5));
-        System.out.println("Actualizado 'Morning brew'");
+//        System.out.println("-----Actualizado 'Morning brew'-----");
+//        col.updateOne(Filters.eq("name", "Morning brew"), Updates.set("stars", 4.5));
+//        
+//        System.out.println("-----Incrementado +0.2 stars a 'Bakery' o 'Desayuno'-----");
+//        Bson filtro_cats = Filters.in("categorias", Arrays.asList("Bakery", "Desayuno"));
+//        col.updateMany(filtro_cats, Updates.inc("stars", 0.2));
+//
+//        System.out.println("-----Agregados campos a 'Cafe de la plaza'-----");
+//        col.updateOne(Filters.eq("name", "Cafe de la plaza"), Updates.set("phone", "555-111-2222"));
+//        col.updateOne(Filters.eq("name", "Cafe de la plaza"), Updates.set("open", true));
+//    }
 
-        Bson filtro_cats = Filters.in("categorias", Arrays.asList("Bakery", "Desayuno"));
-        col.updateMany(filtro_cats, Updates.inc("stars", 0.2));
-        System.out.println("Incrementado +0.2 stars a 'Bakery' o 'Desayuno'");
+        System.out.println("-----Eliminado 'Espresso express'-----");
+        col.deleteOne(Filters.eq("name", "Espresso express"));
 
-        col.updateOne(Filters.eq("name", "Cafe de la plaza"), Updates.set("phone", "555-111-2222"));
-        col.updateOne(Filters.eq("name", "Cafe de la plaza"), Updates.set("open", true));
-        System.out.println("Agregados campos a 'Cafe de la plaza'");
+        System.out.println("-----Eliminados documentos con stars < 4-----");
+        col.deleteMany(Filters.lt("stars", 4));
+
+        System.out.println("-----Eliminados documentos de 'Takeaway' o 'Infusiones'-----");
+        Bson fil = Filters.in("categorias", Arrays.asList("Takeaway", "Infusiones"));
+        col.deleteMany(fil);
     }
 }
