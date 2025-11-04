@@ -46,30 +46,41 @@ public class Restaurants {
 //        );
 //        col.insertMany(lista);
         
-        System.out.println("-----Documentos con stars >= 4.5-----");
-        for (Document d : col.find(Filters.gte("stars", 4.5))) {
-            System.out.println(d.toJson());
-        }
+//        System.out.println("-----Documentos con stars >= 4.5-----");
+//        for (Document d : col.find(Filters.gte("stars", 4.5))) {
+//            System.out.println(d.toJson());
+//        }
+//
+//        System.out.println("\n-----Documentos cuyo nombre contiene 'Cafe'-----");
+//        for (Document d : col.find(Filters.regex("name", "Cafe"))) {
+//            System.out.println(d.toJson());
+//        }
+//
+//        System.out.println("\n-----Documentos con categories que incluyan 'Postres'-----");
+//        for (Document d : col.find(Filters.eq("categorias", "Postres"))) {
+//            System.out.println(d.toJson());
+//        }
+//
+//        System.out.println("\n-----Documentos con stars entre 3 y 4.3-----");
+//        Bson filtro_rango = Filters.and(Filters.gte("stars", 3), Filters.lte("stars", 4.3));
+//        for (Document d : col.find(filtro_rango)) {
+//            System.out.println(d.toJson());
+//        }
+//
+//        System.out.println("\n-----Documentos cuyo nombre empieza con 'T'-----");
+//        for (Document d : col.find(Filters.regex("name", "^T"))) {
+//            System.out.println(d.toJson());
+//        }
 
-        System.out.println("\n-----Documentos cuyo nombre contiene 'Cafe'-----");
-        for (Document d : col.find(Filters.regex("name", "Cafe"))) {
-            System.out.println(d.toJson());
-        }
+        col.updateOne(Filters.eq("name", "Morning brew"), Updates.set("stars", 4.5));
+        System.out.println("Actualizado 'Morning brew'");
 
-        System.out.println("\n-----Documentos con categories que incluyan 'Postres'-----");
-        for (Document d : col.find(Filters.eq("categorias", "Postres"))) {
-            System.out.println(d.toJson());
-        }
+        Bson filtro_cats = Filters.in("categorias", Arrays.asList("Bakery", "Desayuno"));
+        col.updateMany(filtro_cats, Updates.inc("stars", 0.2));
+        System.out.println("Incrementado +0.2 stars a 'Bakery' o 'Desayuno'");
 
-        System.out.println("\n-----Documentos con stars entre 3 y 4.3-----");
-        Bson filtro_rango = Filters.and(Filters.gte("stars", 3), Filters.lte("stars", 4.3));
-        for (Document d : col.find(filtro_rango)) {
-            System.out.println(d.toJson());
-        }
-
-        System.out.println("\n-----Documentos cuyo nombre empieza con 'T'-----");
-        for (Document d : col.find(Filters.regex("name", "^T"))) {
-            System.out.println(d.toJson());
-        }
+        col.updateOne(Filters.eq("name", "Cafe de la plaza"), Updates.set("phone", "555-111-2222"));
+        col.updateOne(Filters.eq("name", "Cafe de la plaza"), Updates.set("open", true));
+        System.out.println("Agregados campos a 'Cafe de la plaza'");
     }
 }
